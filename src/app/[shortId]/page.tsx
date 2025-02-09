@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 
-interface PageProps {
-  params: { shortId: string };
-}
+type Props = {
+  params: {
+    shortId: string;
+  };
+};
 
-export default function RedirectPage({ params }: PageProps) {
+export default function RedirectPage({ params }: Props) {
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {
@@ -58,7 +60,7 @@ export default function RedirectPage({ params }: PageProps) {
   useEffect(() => {
     const timer = setTimeout(() => startVerification(), 500);
     return () => clearTimeout(timer);
-  }, [startVerification]);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F6F7]">

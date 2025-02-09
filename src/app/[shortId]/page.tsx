@@ -2,15 +2,13 @@
 
 import { useEffect, useState, useCallback } from 'react';
 
-interface PageProps {
+type PageProps = {
   params: {
     shortId: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
+};
 
-export default function RedirectPage(props: PageProps) {
-  const { params } = props;
+export default function RedirectPage({ params }: PageProps) {
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {

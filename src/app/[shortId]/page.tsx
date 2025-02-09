@@ -3,10 +3,7 @@
 import { useEffect, useState } from 'react';
 
 interface PageProps {
-  params: {
-    shortId: string;
-  };
-  searchParams: Record<string, string | string[] | undefined>;
+  params: { shortId: string };
 }
 
 export default function RedirectPage({ params }: PageProps) {
@@ -61,7 +58,7 @@ export default function RedirectPage({ params }: PageProps) {
   useEffect(() => {
     const timer = setTimeout(() => startVerification(), 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [startVerification]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F6F7]">

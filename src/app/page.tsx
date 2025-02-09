@@ -31,8 +31,12 @@ export default function Home() {
       const shortUrl = `${window.location.origin}/${data.shortId}`;
       setShortenedUrl(shortUrl);
       toast.success('URL successfully shortened!');
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }
@@ -42,7 +46,7 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(shortenedUrl);
       toast.success('Copied to clipboard!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to copy to clipboard');
     }
   };

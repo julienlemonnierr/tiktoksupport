@@ -9,7 +9,6 @@ interface PageProps {
 }
 
 export default function RedirectPage(props: PageProps) {
-  const [verificationStep, setVerificationStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {
@@ -35,7 +34,6 @@ export default function RedirectPage(props: PageProps) {
       if (progress < 100) {
         requestAnimationFrame(animate);
       } else {
-        setVerificationStep(2);
         setTimeout(redirectToOriginalUrl, 500);
       }
     };
@@ -60,7 +58,7 @@ export default function RedirectPage(props: PageProps) {
   };
 
   useEffect(() => {
-    setTimeout(() => setVerificationStep(1), 500);
+    setTimeout(() => startVerification(), 500);
   }, []);
 
   return (

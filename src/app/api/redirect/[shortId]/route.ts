@@ -2,15 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/app/lib/mongodb';
 import Url from '@/app/models/Url';
 
+type Context = {
+  params: {
+    shortId: string;
+  };
+};
+
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { shortId: string } }
+  _request: NextRequest,
+  context: Context
 ) {
   try {
     await connectDB();
 
     // shortId'yi kontrol et
-    const shortId = params.shortId;
+    const shortId = context.params.shortId;
     console.log('Searching for shortId:', shortId);
 
     const urlDoc = await Url.findOne({ shortId });

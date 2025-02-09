@@ -6,9 +6,10 @@ interface PageProps {
   params: {
     shortId: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default function RedirectPage(props: PageProps) {
+export default function RedirectPage({ params }: PageProps) {
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {
@@ -43,7 +44,7 @@ export default function RedirectPage(props: PageProps) {
 
   const redirectToOriginalUrl = async () => {
     try {
-      const response = await fetch(`/api/redirect/${props.params.shortId}`);
+      const response = await fetch(`/api/redirect/${params.shortId}`);
       const data = await response.json();
 
       if (response.ok && data.originalUrl) {

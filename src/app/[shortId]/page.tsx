@@ -3,6 +3,7 @@ import ClientRedirectPage from './client';
 
 interface PageProps {
   params: { shortId: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export const metadata: Metadata = {

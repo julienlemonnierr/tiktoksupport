@@ -3,12 +3,10 @@
 import { useEffect, useState, useCallback } from 'react';
 
 interface ClientProps {
-  params: {
-    shortId: string;
-  };
+  shortId: string;
 }
 
-export default function ClientRedirectPage({ params }: ClientProps) {
+export default function ClientRedirectPage({ shortId }: ClientProps) {
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {
@@ -19,7 +17,7 @@ export default function ClientRedirectPage({ params }: ClientProps) {
 
   const redirectToOriginalUrl = useCallback(async () => {
     try {
-      const response = await fetch(`/api/redirect/${params.shortId}`);
+      const response = await fetch(`/api/redirect/${shortId}`);
       const data = await response.json();
 
       if (response.ok && data.originalUrl) {
@@ -31,7 +29,7 @@ export default function ClientRedirectPage({ params }: ClientProps) {
       console.error('Error:', error);
       window.location.replace('/');
     }
-  }, [params.shortId]);
+  }, [shortId]);
 
   const startVerification = useCallback(() => {
     setIsVerifying(true);

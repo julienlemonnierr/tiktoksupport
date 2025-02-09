@@ -2,15 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/app/lib/mongodb';
 import Url from '@/app/models/Url';
 
-type Context = {
-  params: {
-    shortId: string;
-  };
-};
-
 export async function GET(
-  _request: NextRequest,
-  context: Context
+  request: NextRequest,
+  context: { params: { shortId: string } }
 ) {
   try {
     await connectDB();

@@ -2,13 +2,13 @@
 
 import { useEffect, useState, useCallback } from 'react';
 
-type Props = {
+interface ClientProps {
   params: {
     shortId: string;
   };
-};
+}
 
-export default function ClientRedirectPage({ params }: Props) {
+export default function ClientRedirectPage({ params }: ClientProps) {
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {

@@ -1,17 +1,18 @@
 import { Metadata } from 'next';
 import ClientRedirectPage from './client';
 
-type Props = {
+interface PageProps {
   params: {
     shortId: string;
   };
-};
+  searchParams: Record<string, string | string[] | undefined>;
+}
 
 export const metadata: Metadata = {
   title: 'Verification Required',
   description: 'Please verify that you are human',
 };
 
-export default function Page({ params }: Props) {
-  return <ClientRedirectPage params={params} />;
+export default async function Page(props: PageProps) {
+  return <ClientRedirectPage params={props.params} />;
 } 

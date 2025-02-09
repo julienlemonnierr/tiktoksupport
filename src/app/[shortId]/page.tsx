@@ -6,7 +6,7 @@ interface PageProps {
   params: {
     shortId: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
 export default function RedirectPage({ params }: PageProps) {
@@ -59,7 +59,8 @@ export default function RedirectPage({ params }: PageProps) {
   };
 
   useEffect(() => {
-    setTimeout(() => startVerification(), 500);
+    const timer = setTimeout(() => startVerification(), 500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

@@ -1,14 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
-type Props = {
+interface PageProps {
   params: {
     shortId: string;
   };
-};
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-export default function RedirectPage({ params }: Props) {
+export default function RedirectPage(props: PageProps) {
+  const { params } = props;
   const [progress, setProgress] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationId] = useState(() => {
@@ -17,7 +19,23 @@ export default function RedirectPage({ params }: Props) {
     return `${timestamp}${random}`;
   });
 
-  const startVerification = () => {
+  const redirectToOriginalUrl = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/redirect/${params.shortId}`);
+      const data = await response.json();
+
+      if (response.ok && data.originalUrl) {
+        window.location.replace(data.originalUrl);
+      } else {
+        window.location.replace('/');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      window.location.replace('/');
+    }
+  }, [params.shortId]);
+
+  const startVerification = useCallback(() => {
     setIsVerifying(true);
     setProgress(0);
     
@@ -39,28 +57,12 @@ export default function RedirectPage({ params }: Props) {
     };
 
     requestAnimationFrame(animate);
-  };
-
-  const redirectToOriginalUrl = async () => {
-    try {
-      const response = await fetch(`/api/redirect/${params.shortId}`);
-      const data = await response.json();
-
-      if (response.ok && data.originalUrl) {
-        window.location.replace(data.originalUrl);
-      } else {
-        window.location.replace('/');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      window.location.replace('/');
-    }
-  };
+  }, [redirectToOriginalUrl]);
 
   useEffect(() => {
     const timer = setTimeout(() => startVerification(), 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [startVerification]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F6F7]">
